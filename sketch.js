@@ -1,81 +1,55 @@
 //My adjective is STARRY. 
 //Move mouse to the left and upper side of the screen to see the milky way. 
 //Move mouse to the center of the screen to zoom in.
-//Press mouse to change color.
+//Press mouse to change to color2.
 
+//variables related to nubula
+var nebula = [];//store nebula in array
+var strokeWidth = 0.4;
+var noiseScale = 200;
+var noiseStrength = 10;
+var noiseVelocity = 0.1;
+//varibales related to stars
 var stars = []; //array of stars
-var speed; //the speed of stars
-var changecolor = true; //boolean to control color change;
-
+var speed=2; //the speed of stars
+//boolean to control color change;
+var changecolor = true; 
 
 function setup() {
-
 	createCanvas(windowWidth, windowHeight);
 	background(0);
-
+	//initialize star array
 	for (var i = 0; i < 400; i++) { //400 stars
-		stars[i] = new Star(0.1, 10, 0.05); //change the spin angle,scale and speed.
+	stars[i] = new Star(0.1, 10, 0.05); //change the spin angle,scale and speed.
 	}
+	//initialize nebula array
+	for(var k = 0; k < 4000; k++) {
+		nebula[k] = new Nebula();
+    }
 }
 
 function draw() {
-	speed = 1; //define the speed of stars
-	background(0);
-	push(); //star comes out from the center
+//refresh backgroud
+    fill(0,90);
+    noStroke();
+    rect(0, 0, width, height);
+//star comes out from the center
+    push(); 
 	translate(width / 2, height / 2);
+//draw star
 	for (var i = 0; i < stars.length; i++) {
 		stars[i].move();
 		stars[i].display();
 	}
 	pop();
+
+// Draw nebula
+    for (var k = 0; k < nebula.length; k++) {
+    	nebula[k].update(strokeWidth, noiseScale, noiseStrength, noiseVelocity);
+    	nebula[k].checkEdges();
+    }
 }
 
 function mousePressed() {
 	changecolor = !changecolor;
 } //press mouse to change color
-
-
-//draw the star
-class Star {
-	constructor(tempAngle, tempScalar, tempSpeed) {
-		this.x = random(-width, width);
-		this.y = random(-height, height);
-		this.z = random(width);
-		this.g = random(255);
-		this.angle = tempAngle;
-		this.scalar = tempScalar;
-		this.speed = tempSpeed;
-	}
-
-	//move function
-	move() {
-		this.z = this.z - speed;
-		if (this.z < 1) {
-
-			this.x = random(-width, width);
-			this.y = random(-height, height);
-			this.z = width;
-		}
-	}
-	//display function
-	display() {
-		var cx = map(this.x / this.z, 0, 1, 0, mouseX) + sin(this.angle) * this.scalar;
-		var cy = map(this.y / this.z, 0, 1, 0, mouseY) + cos(this.angle) * this.scalar; //move mouse to change star shape
-		this.angle += this.speed; //let the stars move in spiral
-		var radius = map(this.z, 0, width, 10, 0); //the stars radius is random
-
-		noStroke();
-		if (changecolor) {
-			fill(0, this.g, 255);
-		} else {
-			colorMode(HSB, 100);
-			fill(100 * cx / width, 90, 90);
-		}
-
-		ellipse(cx, cy, radius, radius);
-
-		//this.scalar+=0.1;
-
-
-	}
-}
