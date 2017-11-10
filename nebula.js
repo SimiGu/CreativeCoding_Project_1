@@ -1,4 +1,4 @@
-//The use of perlin noise is learnt from Generative Design M_1_5_03: https://github.com/generative-design/Code-Package-p5.js/tree/master/02_M/M_1_5_03
+//The use of perlin noise is based on Generative Design M_1_5_03: https://github.com/generative-design/Code-Package-p5.js/tree/master/02_M/M_1_5_03
 class Nebula{
   constructor(){
     this.vector = createVector(random(width), random(height));
@@ -8,16 +8,11 @@ class Nebula{
     this.noise = random(1);
 }
 //draw nebula
-update(strokeWidth, noiseScale, noiseStrength, noiseZVelocity) {
-  //change stroke color with stars
-  //var nebulacol = map(this.vector.x, 0, width, 0, changeX)//move mouse to control mode2 color
+update(strokeWidth, noiseScale, noiseStrength, noiseVelocity) {
 
-     stroke(255,0,random(100),2);//red,alpha
-      //change color over time.
-   if (frameCount>120){
       stroke(0,random(255),255,2);//blue,alpha
       
-    }
+    
   //control strokeWeight
   strokeWeight(strokeWidth * this.stepSize*random(40));
   line(this.pvector.x, this.pvector.y, this.vector.x, this.vector.y);

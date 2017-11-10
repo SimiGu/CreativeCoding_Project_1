@@ -1,44 +1,40 @@
-//This part of code is based on Shiffman's tutorial video: https://www.youtube.com/watch?v=17WoOqgXsRM
-class Star {
-	constructor(tempAngle, tempScalar, tempSpeed) {
-		this.x = random(-width, width);
-		this.y = random(-height, height);
-		this.z = random(width);//
-		this.color = random(255);
-		this.angle = tempAngle;//spin angle
-		this.scalar = tempScalar;//spin scale
-		this.speed = tempSpeed;//spin and move speed
-		this.size = 1;//star size
-	}
+//This part got inspiration from Shiffman's tutorial video: https://www.youtube.com/watch?v=17WoOqgXsRM
+//Use pvector instead.
+class Star{
+ constructor(tempSpinscale){
+   this.spinscale=tempSpinscale;//spinscale
+   this.color=random(255);//blue
+   this.size=1;//star size
+   this.theta=0.1;//spinangle
+   this.m=random(width);//valuable to control r
+   this.location=createVector(0,0);
+   this.direction=createVector(random(-1,1),random(-1,1));//move to all directions
+   this.v=p5.Vector.mult(this.direction,random(10)); //velocity.stars move in different speed                       
+}
 
-	//move function
-	move() {
-		this.z = this.z - speed;//make the star move closer by speed.
-		if (this.z < 1) {
-            this.x = random(-width, width);
-			this.y = random(-height, height);
-			this.z = width;
-		}
+  update(){
+  	this.location.add(this.v);//move forward
+  	 //stop for 1 sec.
+    if(frameCount>90){
+     	this.location.sub(this.v);
+     }
+    //keep moving.
+    if(frameCount>120){
+  	this.location.add(this.v);
+  }
+//print(frameCount);
 
-	}
-	//display function
-	display() {
-		var cx = map(this.x / this.z, 0, 1, 0, changeX) + sin(this.angle) * this.scalar;
-		var cy = map(this.y / this.z, 0, 1, 0, changeY) + cos(this.angle) * this.scalar; 
-		this.angle += this.speed; //let the stars move in spiral
-		var radius = map(this.z, 0, width, 5, 0); //the original radius is random in 1-5.
+  }
 
-		noStroke();
-			fill(this.color,0,50);//red
-//change color over time.
-		if (frameCount>120){
-			fill(0, this.color, 255);//blue
-			
-		}
-        
-		ellipse(cx, cy, radius * this.size, radius * this.size);
-
-		//when stars move closer, they will become bigger.
-		this.size += 0.01; //get help from Kelly.
-	}
+display(){
+  noStroke();
+  fill(0, this.color, 255,99);//random blue
+  //original r vary from 5-0
+  var r=map(this.m,0,width,5,0);
+  ellipse(this.location.x+sin(this.theta)*this.spinscale,this.location.y+cos(this.theta)*this.spinscale,r*this.size,r*this.size);
+//blur effect
+  ellipse(this.location.x+sin(this.theta)*this.spinscale,this.location.y+cos(this.theta)*this.spinscale,r*this.size*1.1,r*this.size*1.1);
+  this.size+=0.01;//become larger while moving forward
+  this.theta+=0.1;
+}
 }
