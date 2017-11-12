@@ -9,7 +9,7 @@ class Star{
    this.m=random(width);//valuable to control r
    this.location=createVector(0,0);
    this.direction=createVector(random(-1,1),random(-1,1));//move to all directions
-   this.v=p5.Vector.mult(this.direction,random(10)); //velocity.stars move in different speed                       
+   this.v=p5.Vector.mult(this.direction,random(20)); //velocity.stars move in different speed                       
 }
 
   update(){
@@ -19,7 +19,7 @@ class Star{
      	this.location.sub(this.v);
      }
     //keep moving.
-    if(frameCount>120){
+    if(frameCount>150){
   	this.location.add(this.v);
   }
 //print(frameCount);

@@ -10,7 +10,7 @@ var noiseStrength = 10;
 var noiseVelocity = 0.01;
 //varibales related to stars
 var stars = []; //array of stars
-var starnum=100;
+var starnum=200;//orinal number of stars
 //boolean to control color change;
 var changecolor = true; 
 
